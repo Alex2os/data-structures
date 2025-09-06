@@ -32,6 +32,12 @@ public:
 
     void insert(int val, int pos);
 
+    void removehead();
+
+    void removetail();
+
+    void removeinposition(int pos);
+
 
 };
 
@@ -134,17 +140,129 @@ void LinkedList::prepend(int val) {
     }
 }
 
+void LinkedList::removehead() {
 
+    if (head == nullptr) cout << "List is empty." << endl;
+    else {
+
+        Vertex* temp = head; // we use a temporal object so the memory can be freed when the function ends. this stops memory leaks.
+        head = head->next; // could be that head will point to nullptr. in this case we say the list will be empty.
+
+        if (head == nullptr) tail = nullptr; 
+
+        delete temp; // with delete we can delete the object.
+    }
+}
+
+void LinkedList::removetail() {
+
+    if (head == nullptr) cout << "List is empty." << endl;
+    else {
+
+        Vertex* temp_node = head;
+        Vertex* previous_node = head;
+
+        while (temp_node != nullptr) {
+
+            if (temp_node->next == nullptr) {
+
+                if (temp_node == head) { // this fires in case the tail is also the head.
+                    head = nullptr;
+                    tail = nullptr;
+                }
+
+                else {
+                    previous_node->next = nullptr;
+                    tail = previous_node;
+                }
+
+                break;
+
+            }
+
+            else {
+
+                if (temp_node != head) previous_node = previous_node->next;
+
+                temp_node = temp_node->next;
+            }
+
+
+        }
+
+    }
+
+}
+
+void LinkedList::removeinposition(int pos) {
+    if (head == nullptr) cout << "List is empty.";
+    else {
+
+        Vertex* temp_node = head;
+        Vertex* previous_node = head;
+
+        int searching_pos = 0;
+
+        while (searching_pos <= pos) {
+
+            if (searching_pos == pos) {
+
+                if (temp_node == head && temp_node->next == nullptr) { // in case the wanted position is both the tail and the head.
+
+                    head = nullptr;
+                    tail = nullptr;
+
+                }
+
+                else if (temp_node->next == nullptr) {
+
+                    previous_node->next = nullptr;
+                    tail = previous_node;
+
+                }
+
+                else{
+
+                    if (temp_node == head) head = temp_node->next;
+
+                    
+                    else previous_node->next = temp_node->next; // we assign the next node of the erased node (temp_node) so we jump the erased node and we now don't reference to it anymore on the previous node.
+
+                    
+
+                }
+
+                break;
+
+            }
+            else {
+
+                if (temp_node->next == nullptr) {
+                    cout << "The position introduced is invalid." << endl;
+                    break;
+                }
+
+                else {
+
+                    if (temp_node != head) previous_node = previous_node->next;
+
+                    temp_node = temp_node->next;
+
+                }
+            }
+            
+            searching_pos++;
+        }
+
+    }
+
+    if (pos < 0) cout << "The position introduced is not valid." << endl;
+}
 
 int main() {
-    LinkedList list;
-    list.append(20);
-    list.insert(30, 0);
-    list.append(20);
-    list.append(20);
-    list.append(20);
-    list.append(20);
-    list.insert(30, 0);
+    LinkedList list; // memory leak --> search
+    list.append(20); // 0
+    list.removeinposition(0);
     list.print();
 
     return 0;
