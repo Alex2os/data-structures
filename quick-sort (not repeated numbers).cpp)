@@ -1,0 +1,91 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+vector<int> QuickSort(vector<int> arr, int n) {
+
+	if (n == 1) return arr;
+
+	int pivot = arr[n - 1];
+
+	int swap_marker = -1;
+
+	for (int current_index = 0; current_index < n; current_index++) {
+
+		if (arr[current_index] > pivot);
+
+		else if (arr[current_index] <= pivot) {
+
+			swap_marker++;
+
+			if (current_index == swap_marker);
+
+			else if (current_index > swap_marker) {
+				int temp = arr[current_index];
+				arr[current_index] = arr[swap_marker];
+				arr[swap_marker] = temp;
+			}
+		}
+	}
+
+	vector<int> temp_arr1;
+	vector<int> temp_arr2;
+
+	bool temp_arr2_flag = false;
+
+	for (int i = 0; i < n; i++) {
+
+		if (arr[i] == pivot) {
+
+			if (i + 1 == n);
+
+			else if (arr[i + 1] == pivot) {
+
+				if (!temp_arr2_flag) temp_arr1.push_back(arr[i]);
+				else temp_arr2.push_back(arr[i]);
+			}
+
+			else temp_arr2_flag = true;
+			
+		}
+		else {
+			if (!temp_arr2_flag) temp_arr1.push_back(arr[i]);
+			
+			else temp_arr2.push_back(arr[i]);
+		}
+	}
+
+	arr.clear(); // we have to clear the array in order for it to be reassigned in the following lines of code.
+
+	if (temp_arr1.size() == 0);
+	else {
+		temp_arr1 = QuickSort(temp_arr1, temp_arr1.size());
+		arr = temp_arr1;
+	}
+
+	arr.push_back(pivot);
+
+	if (temp_arr2.size() == 0);
+	else {
+		temp_arr2 = QuickSort(temp_arr2, temp_arr2.size());
+
+		for (int i = 0; i < temp_arr2.size(); i++) {
+
+			arr.push_back(temp_arr2[i]);
+		}
+	}
+
+	return arr;
+}
+
+int main() {
+
+	vector<int> arr_example = { 3, 1, 4, 5, 2};
+
+	arr_example = QuickSort(arr_example, arr_example.size());
+
+	for (int i = 0; i < arr_example.size(); i++) cout << arr_example[i] << " ";
+
+	return 0;
+}
