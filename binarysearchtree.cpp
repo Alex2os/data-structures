@@ -23,9 +23,9 @@ public:
 	}
 
 	void Insert(int val);
-	void PreOrder(Vertex *);
-	void PostOrder(Vertex *);
-	void InOrder(Vertex *);
+	void PreOrder(Vertex*);
+	void PostOrder(Vertex*);
+	void InOrder(Vertex*);
 
 };
 
@@ -36,7 +36,7 @@ void BinarySearchTree::Insert(int val) {
 	else {
 
 		Vertex* searching_node = root;
-		for (int i = 0; i > -1; i++) {
+		while (true){
 
 			// greater than
 			if (new_vertex->value > searching_node->value) {
@@ -47,6 +47,13 @@ void BinarySearchTree::Insert(int val) {
 					break;
 				}
 				else searching_node = searching_node->next_right;
+			}
+
+			// if it's equal, then delete the new node and also show a message that it indeed is duplicated.
+			else if (new_vertex->value == searching_node->value) {
+				cout << "Duplicated value. Not adding it to the tree." << endl;
+				delete new_vertex;
+				break;
 			}
 
 			// less than
@@ -61,7 +68,6 @@ void BinarySearchTree::Insert(int val) {
 
 			}
 		}
-
 	}
 }
 
@@ -69,7 +75,7 @@ void BinarySearchTree::Insert(int val) {
 // in the case of the order functions (which are for printing the values of the tree itself) we just have to iterate in different ways, so basically just changing the position of the functions and the cout.
 // basically, when the function hits a vertex that is nullptr, then returns, making the recursivity finish and start printing or doing all the things the function has to do, making this-
 // a way to use recursivity to print the values of the tree.
-void BinarySearchTree::InOrder(Vertex *v) {
+void BinarySearchTree::InOrder(Vertex* v) {
 
 	if (v == nullptr) return;
 
@@ -80,7 +86,7 @@ void BinarySearchTree::InOrder(Vertex *v) {
 	InOrder(v->next_right);
 }
 
-void BinarySearchTree::PreOrder(Vertex *v) {
+void BinarySearchTree::PreOrder(Vertex* v) {
 
 	if (v == nullptr) return;
 
@@ -91,7 +97,7 @@ void BinarySearchTree::PreOrder(Vertex *v) {
 	PreOrder(v->next_right);
 }
 
-void BinarySearchTree::PostOrder(Vertex *v) {
+void BinarySearchTree::PostOrder(Vertex* v) {
 
 	if (v == nullptr) return;
 
@@ -118,7 +124,7 @@ int main() {
 	// print preorder
 	cout << "Printing PreOrder:" << endl;
 	tree.PreOrder(tree.root); // in this case we have to use the tree.root to specify the root of the tree so these functions can start from there. the root attribute of the-
-	                          // BinarySearchTree class is assigned to public for this to be possible, but should check another ways to use send the root to these functions.
+	// BinarySearchTree class is assigned to public for this to be possible, but should check another ways to use send the root to these functions.
 	cout << endl;
 
 	// print inorder
